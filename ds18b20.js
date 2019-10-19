@@ -1,6 +1,6 @@
 //init
 var sensor = require ('ds18b20');
-var isLoaded = sensor.isDriverloaded();
+var isLoaded = sensor.isDriverLoaded();
 var io = require ('socket.io')(http);
 
 //redis init
@@ -18,9 +18,11 @@ client.on("error", function(err) {
 
 //identify sensor
 if (isLoaded){
+
 	var listOfdeviceID = sensor.list();
-		console.log("Device found: " + deviceID);
-	if(deviceID.length == 0){
+		console.log("Device found: " + listOfdeviceID);
+
+	if(lsitOfdeviceID.length == 0){
 		console.log("No device is found." + "Exiting...");
 		process.exit();
 	}
