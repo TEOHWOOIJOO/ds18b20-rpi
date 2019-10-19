@@ -18,14 +18,15 @@ client.on("error", function(err) {
 
 //identify sensor
 if (isLoaded){
-	var deviceID = sensor.list();
+	var listOfdeviceID = sensor.list();
 		console.log("Device found: " + deviceID);
 	if(deviceID.length == 0){
 		console.log("No device is found." + "Exiting...");
 		process.exit();
 	}
 	//get temperature data from sensor
-	sensor.temperature(deviceID, function(err,data){
+	var mainSensor = listOfdeviceID[0];
+		sensor.get(mainSensor, function(err,data){
 		console.log("The temperature is " + data + "C", data);
 	});
 
