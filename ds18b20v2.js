@@ -19,7 +19,7 @@ function readTemp(callback){
 	//rounding decimal
 	temp = Math.round(temp * 10) / 10;
 
-		console.log("the temperature is " + temp "C", temp);
+		console.log("the temperature is " + temp + "C", temp);
 
 		callback(data);
 	});
