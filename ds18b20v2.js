@@ -8,6 +8,8 @@ function readTemp(callback){
 		if(err){
 			console.error(err);
 			process.exit(1);
+		} else {
+			console.log("The temperature is "+ callback + "C",callback);
 		}
 
 	//read data from file
@@ -22,5 +24,7 @@ function readTemp(callback){
 		console.log("the temperature is " + temp + "C", temp);
 
 		callback(data);
+
+		console.log("The temp is " + data + "C", data);
 	});
 };
