@@ -1,6 +1,6 @@
 //init
 var sensor = require ('ds18b20');
-var isLoaded = sensor.isDriverLoaded();
+var isLoaded = sensor.isLoaded();
 var io = require ('socket.io')(http);
 
 //redis init
