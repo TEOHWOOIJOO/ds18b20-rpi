@@ -1,5 +1,6 @@
 var fs = require ('fs');
 var sys = require('util');
+var sensor = require('ds18b20');
 
 
 //read current temp
