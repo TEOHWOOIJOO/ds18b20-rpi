@@ -1,8 +1,9 @@
 //init
 var sensor = require ('ds18b20');
 var isLoaded = true ; 
-var io = require ('socket.io')(http);
+//var io = require ('socket.io')(http);
 
+/*
 //redis init
 var redis = require('redis');
 var client = redis.createClient({host: 'localhost' , port: '6379'});
@@ -15,7 +16,7 @@ client.on("error", function(err) {
 	console.log("Err: " + err);
 });
 
-
+*/
 //identify sensor
 if (isLoaded){
 
