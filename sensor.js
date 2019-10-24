@@ -18,14 +18,17 @@ ds18.sensors(function (err, ids){
 });
 
 //get data reading from the sensor
-var data = 0.0; 
+//var data = parseFloat( data.toFixed(1)); 
 setInterval(function(){
 	ds18.temperature('28-03219779933a', function(err, value){
 		data = value;
-		console.log(new Date());
+		data = parseFloat(data).toFixed(1);
+		console.log(new Date().toString("hh:mm tt"));
 		console.log("Current Celcius is: ",data);
-		fahren = data * 9/5 + 32;
+//get Fahrenheit temperature
+	fahren = (data * 9/5 + 32);
 		console.log("Current Fahrenheit is: ", fahren);
 	});
+
 
 }, 1000);
