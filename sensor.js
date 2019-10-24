@@ -18,6 +18,7 @@ ds18.sensors(function (err, ids){
 });
 
 //get data reading from the sensor
+var data = 0.0; 
 setInterval(function(){
 	ds18.temperature('28-03219779933a', function(err, value){
 		data = value;
