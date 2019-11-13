@@ -11,6 +11,8 @@ client.on("ready", function(){
 client.on("error", function(err) {
 	console.log("Err: " + err);
 });
+
+
 //get sensor ID
 ds18.sensors(function (err, ids){
 	console.log ("Ids: " + ids);
@@ -18,7 +20,6 @@ ds18.sensors(function (err, ids){
 });
 
 //get data reading from the sensor
-//var data = parseFloat( data.toFixed(1)); 
 setInterval(function(){
 	ds18.temperature('28-03219779933a', function(err, value){
 		data = value;
