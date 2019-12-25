@@ -6,90 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Iot For Aquaculture</title>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-
-  <style>
-     :root {
-      --mdc-theme-primary: #0e4ead;
-      --mdc-theme-background: #E0E0E0;
-    }
-    main {
-      margin: 0px auto;
-    }
-    .mdc-card {
-      margin-bottom: 20px;
-      padding: 8px;
-    }
-  </style>
-
 </head>
 
 <body>
-  <header class="mdc-toolbar mdc-toolbar--fixed">
-    <div class="mdc-toolbar__row">
-      <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-        <span class="mdc-toolbar__title">IoT For Aquaculture</span>
-      </section>
-      <!--
-        <section class="mdc-toolbar__section mdc-toolbar__section--align-end" role="toolbar">
-          <a href="#" class="material-icons mdc-toolbar__icon" aria-label="Download" alt="Download">more_vert</a>
-        </section>
-      -->
-    </div>
+  <header>
+    <span> <h1 align="center" style="color: #7e7e7e;font-family: Courier New; ">IoT Monitoring For Aquaculture</h1></span>
   </header>
-  <main class="mdc-toolbar-fixed-adjust">
-    <div class="mdc-layout-grid">
-      <div class="mdc-layout-grid__inner">
-        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-          <div class="mdc-card">
-            <section class="mdc-card__primary">
-              <h1 class="mdc-card__title mdc-card__title--large">Current data collected</h1>
-            </section>
-             <ul id="object" class="mdc-list mdc-list--two-line mdc-list--avatar-list two-line-avatar-text-icon-demo">
-                <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
-                     <div class="mdc-linear-progress__buffering-dots"></div>
-                <div class="mdc-linear-progress__buffer"></div>
-                <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-                  <span class="mdc-linear-progress__bar-inner"></span>
-                 </div>
-                <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-                  <span class="mdc-linear-progress__bar-inner"></span>
-                </div>
-              </div>
-            </ul>
-          </div>
-        </div>
-          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6">
-          <div class="mdc-card">
-            <section class="mdc-card__primary">
-                 <h1 class="mdc-card__title mdc-card__title--large">Temperature</h1>
-            </section>
-              <canvas id="tempLineChart"></canvas>
-               <div role="progressbar" id="tempLineChart_progress" class="mdc-linear-progress mdc-linear-progress--indeterminate">
-                   <div class="mdc-linear-progress__buffering-dots"></div>
-              <div class="mdc-linear-progress__buffer"></div>
-              <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-                <span class="mdc-linear-progress__bar-inner"></span>
-              </div>
-                          <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-                <span class="mdc-linear-progress__bar-inner"></span>
-              </div>
-            </div>
-          </div>
-              <div id="devices">
-              </div>
-        </div>
+<div id="chartContainer" style="height: 300px; width: 45%; display: inline-flex; "></div>
+<div id ="chartContainer2" style="height: 300px; width: 45%;display: inline-flex;"></div>
+<div id ="chartContainer3" style="height: 300px; width: 45%;display: inline-flex;"></div>
+<div id ="chartContainer4" style="height: 300px; width: 45%;display: inline-flex;"></div>
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
   </main>
 
 
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
-  <script>
-    window.mdc.autoInit(); 
-  </script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -103,7 +37,190 @@
 
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
-  <script src="app3.js"></script>
+  <script src="app3.js"></script> <script type = text/javascript>
+
+
+
+  window.addEventListener('load' , function() {
+    let devices;
+    var array = new Array();
+    var array2 = new Array();
+    var dps = [];
+    var dps2 = [];
+    var dps3 = [];
+    var dps4 = [];
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+
+      animationEnabled: true,
+      theme:"light1",
+      title: {
+        text: "Current Celcius"
+      },
+      axisX: {
+        title: "Time"
+      },
+      axisY: {
+        title: "Celcius",
+        suffix: "°C"
+      },
+      data: [{
+        type: "spline",
+        color: "rgb(0,209,158)",
+        name: "CPU Utilization",
+        connectNullData: true,
+        //nullDataLineDashType: "solid",
+        xValueType: "dateTime",
+        xValueFormatString: "DD MMM hh:mm TT",
+        //yValueFormatString: "#,##0.##\"%\"",
+        dataPoints: dps
+      }]
+    });
+    var chart2 = new CanvasJS.Chart("chartContainer2", {
+
+      animationEnabled: true,
+      theme:"light1",
+      title: {
+        text: "Celcius History"
+      },
+      axisX: {
+        title: "Time"
+      },
+      axisY: {
+        title: "Celcius",
+        suffix: "°C"
+      },
+      data: [{
+        type: "spline",
+        color: "rgb(0,204,0)",
+        name: "CPU Utilization",
+        connectNullData: true,
+        //nullDataLineDashType: "solid",
+        xValueType: "dateTime",
+        xValueFormatString: "DD MMM hh:mm TT",
+        //yValueFormatString: "#,##0.##\"%\"",
+        dataPoints: dps2
+      }]
+    });
+    var chart3 = new CanvasJS.Chart("chartContainer3", {
+
+      animationEnabled: true,
+      theme:"light1",
+      title: {
+        text: "Current Fahrenheit"
+      },
+      axisX: {
+        title: "Time"
+      },
+      axisY: {
+        title: "Fahrenheit",
+        suffix: "°F"
+      },
+      data: [{
+        type: "spline",
+        color: "rgba(153,51,255)",
+        name: "CPU Utilization",
+        connectNullData: true,
+        //nullDataLineDashType: "solid",
+        xValueType: "dateTime",
+        xValueFormatString: "DD MMM hh:mm TT",
+        //yValueFormatString: "#,##0.##\"%\"",
+        dataPoints: dps3
+      }]
+    });
+    var chart4 = new CanvasJS.Chart("chartContainer4", {
+
+      animationEnabled: true,
+      theme:"light1",
+      title: {
+        text: "Fahrenheit History"
+      },
+      axisX: {
+        title: "Time"
+      },
+      axisY: {
+        title: "Celcius",
+        suffix: "°C"
+      },
+      data: [{
+        type: "spline",
+        color: "rgb(121,139,255)",
+        name: "CPU Utilization",
+        connectNullData: true,
+        //nullDataLineDashType: "solid",
+        xValueType: "dateTime",
+        xValueFormatString: "DD MMM hh:mm TT",
+        //yValueFormatString: "#,##0.##\"%\"",
+        dataPoints: dps4
+      }]
+    });
+    chart.render();
+    chart2.render();
+    chart3.render();
+    chart4.render();
+
+      //Initialize firebase database
+      const db = firebase.database();
+
+      // Create listeners
+      const devicesRef = db.ref('/rasp-pi12345/temperature');
+
+      //Import data from firebase realtime database
+      devicesRef.once("value", function (snapshot) {
+        devices = snapshot.val();
+
+        //Store each data into x axis and y axis
+        snapshot.forEach(function(item) {
+          console.log(item.key);
+          console.log(item.val().Celcius);
+          var val = parseFloat(item.val().Celcius);
+          var val2 = parseFloat(item.val().Fahrenheit);
+          dps2.push({ x: new Date(item.key), y: val});
+          dps4.push({x: new Date(item.key), y: val2});
+
+        });
+
+        chart2.render();
+        chart4.render();
+      });
+
+      //Realtime update data once new data is added
+      devicesRef.on("child_added", function(snapshot) {
+        console.log(new Date(snapshot.key) + "; child-added:>>> " + snapshot.val().Celcius);
+        dps.push({ x: new Date(snapshot.key), y: parseFloat(snapshot.val().Celcius) });
+        chart.render();
+      });
+      devicesRef.on("child_added", function(snapshot) {
+        console.log(new Date(snapshot.key) + "; child-added:>>> " + snapshot.val().Fahrenheit);
+        dps3.push({ x: new Date(snapshot.key), y: parseFloat(snapshot.val().Fahrenheit) });
+        chart3.render();
+      });
+
+    console.log(array[0]);
+
+     for (var i = 0; i < array.length; i++) {
+        dps.push({
+          x: array2[i],
+          y: array[i]
+        });
+       dps3.push({
+         x: array2[i],
+         y: array[i]
+       });
+      }
+    chart.options.data[0].dataPoints= dps;
+    chart2.options.data[0].dataPoints= dps2;
+    chart3.options.data[0].dataPoints= dps3;
+    chart4.options.data[0].dataPoints= dps4;
+    chart.render();
+    chart2.render();
+    chart3.render();
+    chart4.render();
+
+  },false);
+
+</script>
+
 </body>
 
 </html>
