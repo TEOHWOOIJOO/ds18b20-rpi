@@ -58,7 +58,11 @@
         text: "Current Celcius"
       },
       axisX: {
-        title: "Time"
+        title: "Time",
+        scaleBreaks: {
+          autoCalculate: true,
+          type: "wavy"
+        }
       },
       axisY: {
         title: "Celcius",
@@ -84,7 +88,11 @@
         text: "Celcius History"
       },
       axisX: {
-        title: "Time"
+        title: "Time",
+        scaleBreaks: {
+          autoCalculate: true,
+          type: "wavy"
+        }
       },
       axisY: {
         title: "Celcius",
@@ -103,14 +111,17 @@
       }]
     });
     var chart3 = new CanvasJS.Chart("chartContainer3", {
-
       animationEnabled: true,
       theme:"light1",
       title: {
         text: "Current Fahrenheit"
       },
       axisX: {
-        title: "Time"
+        title: "Time",
+        scaleBreaks: {
+          autoCalculate: true,
+          type: "wavy"
+        }
       },
       axisY: {
         title: "Fahrenheit",
@@ -136,11 +147,15 @@
         text: "Fahrenheit History"
       },
       axisX: {
-        title: "Time"
+        title: "Time",
+        scaleBreaks: {
+          autoCalculate: true,
+          type: "wavy"
+        }
       },
       axisY: {
-        title: "Celcius",
-        suffix: "°C"
+        title: "Fahrenheit",
+        suffix: "°F"
       },
       data: [{
         type: "spline",
@@ -198,16 +213,21 @@
 
     console.log(array[0]);
 
-     for (var i = 0; i < array.length; i++) {
-        dps.push({
-          x: array2[i],
-          y: array[i]
-        });
-       dps3.push({
-         x: array2[i],
-         y: array[i]
-       });
-      }
+    for (var i = 0; i < array.length; i++) {
+      dps.push({
+        x: array2[i],
+        y: array[i],
+      });
+      dps.shift();
+
+      dps3.push({
+        x: array2[i],
+        y: array[i]
+      });
+      dps3.shift();
+    }
+
+
     chart.options.data[0].dataPoints= dps;
     chart2.options.data[0].dataPoints= dps2;
     chart3.options.data[0].dataPoints= dps3;
